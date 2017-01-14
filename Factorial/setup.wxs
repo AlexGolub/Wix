@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='Windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+  <Product Name='Factorial' Id='3a739022-8a18-43e0-b7b8-0d24dd581623' UpgradeCode='843a803e-30ea-4fa2-b8c5-8cc56a75652b'
+    Language='1033' Codepage='1252' Version='1.0.0' Manufacturer='Alex Corp.'>
+
+    <Package Id='*' Keywords='Installer' Description="Factorial Installer"
+      Comments='Factorial is a registered trademark of Alex Corp.' Manufacturer='Alex Corp.'
+      InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
+      
+      <UIRef Id="WixUI_Minimal" />
+
+    <Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt="CD-ROM #1" />
+    <Property Id='DiskPrompt' Value="Alex's Factorial Installation [1]" />
+    
+    <Icon Id="icon.ico" SourceFile="icon1.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='ProgramFilesFolder' Name='PFiles'>
+        <Directory Id='Alex' Name='Alex Corp.'>
+          <Directory Id='INSTALLDIR' Name='Factorial'>
+
+            <Component Id='MainExecutable' Guid='0ed7e55d-5433-47cf-9cbb-42a1d6e31996'>
+              <File Id='FactorialEXE' Name='Factorial.exe' DiskId='1' Source='Factorial.exe' KeyPath='yes'>
+                <Shortcut Id="startmenuFactorial" Directory="ProgramMenuDir" Name="Factorial " WorkingDirectory='INSTALLDIR' Icon="icon.ico" IconIndex="0" Advertise="yes" />
+                <Shortcut Id="desktopFactorial" Directory="DesktopFolder" Name="Factorial " WorkingDirectory='INSTALLDIR' Icon="icon.ico" IconIndex="0" Advertise="yes" />
+              </File>
+            </Component>
+
+            <Component Id='Doc' Guid='6ade1a97-8333-48e2-8e97-219aae09ca3b'>
+              <File Id='Doc' Name='doc.html' DiskId='1' Source='doc.html' KeyPath='yes'>
+                <Shortcut Id="startmenuDoc" Directory="ProgramMenuDir" Name="Instruction Doc" Advertise="yes" />
+              </File>
+            </Component>
+
+          </Directory>
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="Programs">
+        <Directory Id="ProgramMenuDir" Name="Factorial">
+          <Component Id="ProgramMenuDir" Guid="a8dd88d9-0a2b-4d6e-ac4f-3b0635d095bc">
+            <RemoveFolder Id='ProgramMenuDir' On='uninstall' />
+            <RegistryValue Root='HKCU' Key='Software\Alex Corp.\Factorial' Type='string' Value='' KeyPath='yes' />
+          </Component>
+        </Directory>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+
+    <Feature Id='Complete' Level='1'>
+      <ComponentRef Id='MainExecutable' />
+      <ComponentRef Id='Doc' />
+      <ComponentRef Id='ProgramMenuDir' />
+    </Feature>
+
+    <!--<Icon Id="Factorial.exe" SourceFile="Factorial.exe" />-->
+
+  </Product>
+</Wix>
